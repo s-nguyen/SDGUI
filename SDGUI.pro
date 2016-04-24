@@ -1,0 +1,27 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2016-04-23T15:31:06
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = SDGUI
+TEMPLATE = app
+
+
+SOURCES += main.cpp \
+    MyLabel.cpp \
+    LeptonThread.cpp \
+    Palettes.cpp \
+    uart_socket.cpp
+
+HEADERS  += \
+    MyLabel.h \
+    LeptonThread.h \
+    Palettes.h \
+    uart_socket.h
+
+FORMS    +=
