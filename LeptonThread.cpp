@@ -1,6 +1,7 @@
 #include "LeptonThread.h"
-#include "uart_socket.h"
+
 #include "Palettes.h"
+#include "TCP_Client.h"
 #include <iostream>
 //#include "Lepton_I2C.h"
 
@@ -21,67 +22,13 @@ void LeptonThread::run()
 {
     //create the initial image
     myImage = QImage(80, 60, QImage::Format_RGB888);
+    TCP_Client datapipe;
+    datapipe.tcp_init();
 
-     CUARTSocket a("/dev/ttyACM0", 115200);
-     a.Open();
 
 
     while(true) {
-
-        //read data packets from lepton over SPI
-        //Store transfer data in result
-
-       //std::cout <<  a.Read(result, 9840) << std::endl;
-        int t1 = 0;
-        int t2 = 0;
-        int t3 = 0;
-        uint8_t temp1[4000] = {0} ;
-
-        uint8_t temp2[4000] = {0} ;
-
-        uint8_t temp3[1840] = {0} ;
-        while(1){
-            a.Wait();
-            t1 = a.Read(temp1, 4000);
-            usleep(20);
-
-            t2 = a.Read(temp2, 4000);
-            usleep(20);
-            t3 = a.Read(temp3, 1840);
-            usleep(20);
-            if(t1 != 0)
-                std::cout << t1 << std::endl;
-            if(t2 != 0)
-                std::cout << t2 << std::endl;
-            if(t3 != 0)
-                std::cout << t3 << std::endl;
-            if(t1+t2+t3 == 9840) {
-                break;
-            }
-            else {
-                usleep(100);
-            }
-        }
-
-
-
-
-        if(t1+t2+t3 == 9840) {
-            for(int i = 0; i < 9840; i++){
-                if(i < 4000){
-                    result[i] = temp1[i];
-                }
-                else if(i < 8000) {
-                    result[i] = temp2[i-4000];
-                }
-                else {
-                    result[i] = temp3[i-8000];
-                }
-            }
-        }
-
-
-
+        datapipe.tcp_read(result);
 
         frameBuffer = (uint16_t *)result;
         int row, column;
@@ -129,8 +76,7 @@ void LeptonThread::run()
 
         //lets emit the signal for update
         emit updateImage(myImage);
-        a.Flush();
-        //a.Close();
+
 
     }
 

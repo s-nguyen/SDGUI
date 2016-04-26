@@ -16,12 +16,12 @@ SOURCES += main.cpp \
     MyLabel.cpp \
     LeptonThread.cpp \
     Palettes.cpp \
-    uart_socket.cpp
+    TCP_Client.cpp
 
 HEADERS  += \
     MyLabel.h \
     LeptonThread.h \
     Palettes.h \
-    uart_socket.h
+    TCP_Client.h
 
 FORMS    +=
