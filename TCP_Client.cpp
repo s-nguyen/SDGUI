@@ -22,7 +22,7 @@ void TCP_Client::tcp_init() {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
         error("ERROR opening socket");
-    server  = gethostbyname("10.0.1.2");
+    server  = gethostbyname("111.0.1.2");
     if (server == NULL) {
         fprintf(stderr, "ERROR, no such host\n");
         exit(0);
@@ -35,16 +35,18 @@ void TCP_Client::tcp_init() {
         error("ERROR connecting");
 }
 
-void TCP_Client::tcp_read(uint8_t *buf) {
-    //bzero(buf, 9840);
-    n = read(sockfd, buf, 9840);
+int TCP_Client::tcp_read(uint8_t *buf, int len) {
+    bzero(buf, 9840);
+    n = read(sockfd, buf, len);
     if (n < 0)
         error("ERROR reading from socket");
+    return n;
 }
 
-void TCP_Client::tcp_write(uint8_t *buf) {
+int TCP_Client::tcp_write(uint8_t *buf, int len) {
     //bzero(buf, 9840);
-    n = write(sockfd, buf, 9840);
+    n = write(sockfd, buf, len);
     if (n < 0)
         error("ERROR reading from socket");
+    return n;
 }

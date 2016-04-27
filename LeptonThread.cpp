@@ -24,11 +24,17 @@ void LeptonThread::run()
     myImage = QImage(80, 60, QImage::Format_RGB888);
     TCP_Client datapipe;
     datapipe.tcp_init();
-
+    uint8_t ack[1];
 
 
     while(true) {
-        datapipe.tcp_read(result);
+        int count = 0;
+        while(count < 9840) {
+            count = count + datapipe.tcp_read(&result[count], 9840);
+
+        }
+
+
 
         frameBuffer = (uint16_t *)result;
         int row, column;
@@ -76,7 +82,8 @@ void LeptonThread::run()
 
         //lets emit the signal for update
         emit updateImage(myImage);
-
+        //Wait to send back a Ready acknowledgement
+        datapipe.tcp_write(ack, 1);
 
     }
 

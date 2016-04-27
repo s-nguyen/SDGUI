@@ -22,8 +22,8 @@ public:
     TCP_Client();
     ~TCP_Client();
     void tcp_init();
-    void tcp_write(uint8_t *buf);
-    void tcp_read(uint8_t *buf);
+    int tcp_write(uint8_t *buf, int len);
+    int tcp_read(uint8_t *buf, int len);
 };
 
 #endif // TCP_CLIENT_H
