@@ -24,4 +24,3 @@ HEADERS  += \
     Palettes.h \
     TCP_Client.h
 
-FORMS    +=

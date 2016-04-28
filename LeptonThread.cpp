@@ -33,7 +33,7 @@ void LeptonThread::run()
             count = count + datapipe.tcp_read(&result[count], 9840);
 
         }
-
+        datapipe.tcp_write(ack, 1);
 
 
         frameBuffer = (uint16_t *)result;
@@ -83,7 +83,7 @@ void LeptonThread::run()
         //lets emit the signal for update
         emit updateImage(myImage);
         //Wait to send back a Ready acknowledgement
-        datapipe.tcp_write(ack, 1);
+
 
     }
 
